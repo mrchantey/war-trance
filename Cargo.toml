@@ -1,0 +1,16 @@
+[package]
+name = "war_trance"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bevy = "0.11.3"
+forky_play = { path = "../forky/crates/forky_play" }
+gamai = { path = "../forky/crates/gamai" }
+
+[dev-dependencies]
+sweet = { path = "../forky/crates/sweet" }
+
+[[example]]
+name = "sweet"
+path = "test/test.rs"
