@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 bevy = "0.11.3"
+extend = "1.2.0"
 forky_play = { path = "../forky/crates/forky_play" }
 gamai = { path = "../forky/crates/gamai" }
 

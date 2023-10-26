@@ -8,3 +8,7 @@ default:
 
 test *args:
 	cargo run --example sweet -- {{args}}
+
+
+run:
+	forky watch cargo run

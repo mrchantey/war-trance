@@ -2425,6 +2425,7 @@ dependencies = [
  "anyhow",
  "bevy_app",
  "bevy_ecs",
+ "bevy_time",
  "extend",
  "gamai_macros",
 ]
@@ -5547,6 +5548,7 @@ name = "war_trance"
 version = "0.1.0"
 dependencies = [
  "bevy",
+ "extend",
  "forky_play",
  "gamai",
  "sweet",
