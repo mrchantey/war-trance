@@ -1,26 +1,25 @@
 use bevy::prelude::*;
 
-pub fn closest_ally(
+pub fn closest_ally<'a>(
     position: &Vec3,
     team: &TeamId,
-    query: &Query<(Entity, &Transform, &TeamId)>,
+    query: impl Iterator<Item = (Entity, &'a Transform, &'a TeamId)>,
 ) -> Option<Entity> {
     closest_on_team(position, query, |other_team| other_team == team)
 }
-pub fn closest_enemy(
+pub fn closest_enemy<'a>(
     position: &Vec3,
     team: &TeamId,
-    query: &Query<(Entity, &Transform, &TeamId)>,
+    query: impl Iterator<Item = (Entity, &'a Transform, &'a TeamId)>,
 ) -> Option<Entity> {
     closest_on_team(position, query, |other_team| other_team != team)
 }
-pub fn closest_on_team<'a, 'b>(
+pub fn closest_on_team<'a>(
     position: &Vec3,
-    query: &Query<(Entity, &Transform, &TeamId)>,
+    query: impl Iterator<Item = (Entity, &'a Transform, &'a TeamId)>,
     cmp: impl Fn(&TeamId) -> bool,
 ) -> Option<Entity> {
     query
-        .iter()
         .filter(|(_, _, other_team, ..)| cmp(*other_team))
         .min_by_key(|(_, other_transform, ..)| {
             (position.distance_squared(other_transform.translation) * 1000.) as i32

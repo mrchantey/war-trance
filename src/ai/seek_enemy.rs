@@ -13,7 +13,7 @@ pub fn seek_enemy_scorer<N: AiNode>(
     enemies: Query<(Entity, &Transform, &TeamId)>,
 ) {
     for (transform, team, mut score, mut seek) in query.iter_mut() {
-        if let Some(other_entity) = closest_enemy(&transform.translation, team, &enemies) {
+        if let Some(other_entity) = closest_enemy(&transform.translation, team, enemies.iter()) {
             **score = Score::Pass;
             **seek = SeekTarget::Entity(other_entity);
         } else {

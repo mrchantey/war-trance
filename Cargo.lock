@@ -2426,8 +2426,10 @@ dependencies = [
  "bevy_app",
  "bevy_ecs",
  "bevy_time",
+ "bevy_utils",
  "extend",
  "gamai_macros",
+ "typed-builder 0.18.0",
 ]
 
 [[package]]
@@ -3141,7 +3143,7 @@ dependencies = [
  "leptos_server",
  "server_fn",
  "tracing",
- "typed-builder",
+ "typed-builder 0.14.0",
 ]
 
 [[package]]
@@ -3154,7 +3156,7 @@ dependencies = [
  "regex",
  "serde",
  "thiserror",
- "typed-builder",
+ "typed-builder 0.14.0",
 ]
 
 [[package]]
@@ -5417,6 +5419,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "typed-builder"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e47c0496149861b7c95198088cbf36645016b1a0734cf350c50e2a38e070f38a"
+dependencies = [
+ "typed-builder-macro",
+]
+
+[[package]]
+name = "typed-builder-macro"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "982ee4197351b5c9782847ef5ec1fdcaf50503fb19d68f9771adae314e72b492"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.38",
+]
+
+[[package]]
 name = "typenum"
 version = "1.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5547,6 +5569,7 @@ dependencies = [
 name = "war_trance"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "bevy",
  "extend",
  "forky_play",

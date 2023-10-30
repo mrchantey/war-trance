@@ -1,4 +1,4 @@
-mod bundles;
+pub mod bundles;
 pub use self::bundles::*;
-mod plugin;
+pub mod plugin;
 pub use self::plugin::*;

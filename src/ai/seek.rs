@@ -1,7 +1,7 @@
 use crate::*;
+use anyhow::Result;
 use bevy::prelude::*;
 use gamai::*;
-
 // #[derive(Debug, Clone, Copy, Component)]
 // pub struct Seek {
 //     pub target: Vec3,
@@ -11,6 +11,15 @@ pub enum SeekTarget {
     Position(Vec3),
     // Seek an entity, if it has been despawned, seek component is removed
     Entity(Entity),
+}
+
+impl SeekTarget {
+    pub fn to_position(&self, transforms: &Query<&Transform>) -> Result<Vec3> {
+        match self {
+            SeekTarget::Position(val) => Ok(*val),
+            SeekTarget::Entity(entity) => Ok(transforms.get(*entity)?.translation),
+        }
+    }
 }
 
 /// Seeks a [SeekTarget]
