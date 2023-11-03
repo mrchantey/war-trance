@@ -9,6 +9,12 @@ pub struct Velocity {
     pub max: f32,
 }
 
+impl Velocity {
+    pub fn new(value: Vec3, max: f32) -> Self {
+        Self { value, max }
+    }
+}
+
 impl Default for Velocity {
     fn default() -> Self {
         Self {

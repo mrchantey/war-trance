@@ -1,4 +1,5 @@
 use super::*;
+use crate::*;
 use bevy::prelude::*;
 use gamai::*;
 
@@ -10,7 +11,7 @@ pub fn seek_enemy_scorer<N: AiNode>(
         &mut Prop<Score, N>,
         &mut Prop<SeekTarget, N>,
     )>,
-    enemies: Query<(Entity, &Transform, &TeamId)>,
+    enemies: Query<(Entity, &Transform, &TeamId), With<Health>>,
 ) {
     for (transform, team, mut score, mut seek) in query.iter_mut() {
         if let Some(other_entity) = closest_enemy(&transform.translation, team, enemies.iter()) {
