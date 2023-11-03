@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use forky_play::*;
-use gamai::TreePlugin;
+use gamai::*;
 
 use crate::*;
 // use crate::*;
@@ -33,7 +33,7 @@ impl Plugin for WarTrancePlugin {
 
 pub fn spawn_camera(mut commands: Commands) {
     commands.spawn(Camera3dBundle {
-        transform: Transform::from_translation(Vec3::new(0., 10., 0.))
+        transform: Transform::from_translation(Vec3::new(0., 10., -0.001))
             .looking_at(Vec3::ZERO, Vec3::UP),
         ..default()
     });
@@ -44,16 +44,21 @@ pub fn spawn_agents(
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
     commands.spawn((
-        AgentBundle::new(&mut meshes, &mut materials, Vec3::ZERO, TeamId::team0()),
-        agent_tree_bundle(),
+        AgentBundle::new(
+            &mut meshes,
+            &mut materials,
+            Vec3::new(-0.5, 0., 0.),
+            TeamId::team0(),
+        ),
+        TreeBundle::new(AgentTree),
     ));
     commands.spawn((
         AgentBundle::new(
             &mut meshes,
             &mut materials,
-            Vec3::new(-3., 0., 0.),
+            Vec3::new(0.5, 0., 0.),
             TeamId::team1(),
         ),
-        agent_tree_bundle(),
+        TreeBundle::new(AgentTree),
     ));
 }

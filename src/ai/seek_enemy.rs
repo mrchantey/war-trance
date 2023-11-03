@@ -2,7 +2,7 @@ use super::*;
 use bevy::prelude::*;
 use gamai::*;
 
-#[action]
+#[action(props=Score::Fail, order=ActionOrder::PreParentUpdate)]
 pub fn seek_enemy_scorer<N: AiNode>(
     mut query: Query<(
         &Transform,

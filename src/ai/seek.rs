@@ -13,6 +13,12 @@ pub enum SeekTarget {
     Entity(Entity),
 }
 
+impl Default for SeekTarget {
+    fn default() -> Self {
+        Self::Position(Vec3::ZERO)
+    }
+}
+
 impl SeekTarget {
     pub fn to_position(&self, transforms: &Query<&Transform>) -> Result<Vec3> {
         match self {
@@ -26,7 +32,7 @@ impl SeekTarget {
 ///
 /// # Fails
 /// If the target is an entity and it has been despawned
-#[action]
+#[action(props=SeekTarget::default())]
 pub fn seek_target<N: AiNode>(
     mut commands: Commands,
     mut query: Query<

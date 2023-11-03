@@ -6,7 +6,7 @@ use gamai::*;
 pub struct Healer;
 
 /// Finds the closest entity with the [Healer] tag
-#[action]
+#[action(props=Score::Fail, order=ActionOrder::PreParentUpdate)]
 pub fn seek_healer_scorer<N: AiNode>(
     mut query: Query<(
         &Transform,

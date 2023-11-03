@@ -7,6 +7,7 @@ pub struct AgentBundle {
     pub velocity: Velocity,
     pub team: TeamId,
     pub health: Health,
+    pub weapon: RangedWeapon,
 }
 
 impl AgentBundle {
@@ -18,6 +19,7 @@ impl AgentBundle {
     ) -> Self {
         Self {
             team,
+            weapon: RangedWeapon::default(),
             health: Health::default(),
             velocity: Velocity::default(),
             pbr: PbrBundle {

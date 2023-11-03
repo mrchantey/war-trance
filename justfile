@@ -9,6 +9,11 @@ default:
 test *args:
 	cargo run --example sweet -- {{args}}
 
+test-w *args:
+	forky watch just test {{args}}
 
 run:
 	forky watch cargo run
+
+watch command *args:
+	forky watch just {{command}} {{args}}

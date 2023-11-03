@@ -1,5 +1,5 @@
 use super::*;
-use bevy::prelude::*;
+use bevy::{core::FrameCount, prelude::*};
 use gamai::*;
 use std::time::Duration;
 
@@ -12,7 +12,7 @@ pub struct RangedWeapon {
 impl Default for RangedWeapon {
     fn default() -> Self {
         Self {
-            range: 2.,
+            range: 3.,
             windup: Duration::from_secs(1),
         }
     }
@@ -26,7 +26,7 @@ impl Default for RangedWeapon {
 /// # Props
 /// - [`SeekTarget`]
 /// - [`Score`]
-#[action]
+#[action(props=Score::Fail, order=ActionOrder::PreParentUpdate)]
 pub fn ranged_attack_scorer<N: AiNode>(
     mut query: Query<(
         &Transform,
@@ -53,7 +53,6 @@ pub fn ranged_attack_scorer<N: AiNode>(
     }
 }
 
-
 /// Executes a ranged attack if the windup has elapsed.
 /// # Components
 /// - [`Transform`]
@@ -61,28 +60,33 @@ pub fn ranged_attack_scorer<N: AiNode>(
 /// # Props
 /// - [`ActionTimer`]
 /// - [`SeekTarget`]
-#[action]
+#[action(props=(ActionTimer::default(),SeekTarget::default()))]
 pub fn ranged_attack<N: AiNode>(
+    time: Res<FrameCount>,
     mut commands: Commands,
     transforms: Query<&Transform>,
-    mut query: Query<(
-        Entity,
-        &Transform,
-        &RangedWeapon,
-        &Prop<ActionTimer, N>,
-        &mut Prop<SeekTarget, N>,
-    )>,
+    mut query: Query<
+        (
+            Entity,
+            &Transform,
+            &RangedWeapon,
+            &Prop<ActionTimer, N>,
+            &mut Prop<SeekTarget, N>,
+        ),
+        With<Prop<Running, N>>,
+    >,
 ) {
     for (entity, transform, weapon, timer, target) in query.iter_mut() {
-        if timer.last_start.elapsed() < weapon.windup {
+        if timer.last_start.elapsed() > weapon.windup {
             commands
                 .entity(entity)
                 .insert(Prop::<_, N>::new(ActionResult::Success));
-
+            // println!("{}", timer.last_start.elapsed().as_secs_f32());
+            // time.
             let target_pos = target.to_position(&transforms).unwrap();
             println!(
-                "entity {:?} attacking {:?}",
-                transform.translation, target_pos
+                "time: {}, entity {:?} attacking {:?}",
+                time.0, entity, target_pos
             );
         }
     }
