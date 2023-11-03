@@ -13,7 +13,12 @@ test-w *args:
 	forky watch just test {{args}}
 
 run:
-	forky watch cargo run
+	just watch cargo run
 
-watch command *args:
-	forky watch just {{command}} {{args}}
+watch *command:
+	forky watch \
+	-w '**/*.rs' \
+	-i '{.git,target,html}/**' \
+	-i '**/mod.rs' \
+	-i '**/*_g.rs' \
+	-- {{command}}

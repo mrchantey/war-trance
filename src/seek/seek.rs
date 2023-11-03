@@ -8,25 +8,28 @@ use gamai::*;
 // }
 #[derive(Debug, Clone, Copy, Component)]
 pub enum SeekTarget {
-    Position(Vec3),
-    // Seek an entity, if it has been despawned, seek component is removed
-    Entity(Entity),
+	Position(Vec3),
+	// Seek an entity, if it has been despawned, seek component is removed
+	Entity(Entity),
 }
 
 impl Default for SeekTarget {
-    fn default() -> Self {
-        Self::Position(Vec3::ZERO)
-    }
+	fn default() -> Self { Self::Position(Vec3::ZERO) }
 }
 
 impl SeekTarget {
-    pub fn to_position(&self, transforms: &Query<&Transform>) -> Result<Vec3> {
-        match self {
-            SeekTarget::Position(val) => Ok(*val),
-            SeekTarget::Entity(entity) => Ok(transforms.get(*entity)?.translation),
-        }
-    }
+	pub fn to_position(&self, transforms: &Query<&Transform>) -> Result<Vec3> {
+		match self {
+			SeekTarget::Position(val) => Ok(*val),
+			SeekTarget::Entity(entity) => {
+				Ok(transforms.get(*entity)?.translation)
+			}
+		}
+	}
 }
+
+
+const ARRIVE_RADIUS_SQ: f32 = 0.1 * 0.1;
 
 /// Seeks a [SeekTarget]
 ///
@@ -34,43 +37,58 @@ impl SeekTarget {
 /// If the target is an entity and it has been despawned
 #[action(props=SeekTarget::default())]
 pub fn seek_target<N: AiNode>(
-    mut commands: Commands,
-    mut query: Query<
-        (Entity, &Transform, &mut Velocity, &Prop<SeekTarget, N>),
-        With<Prop<Running, N>>,
-    >,
-    transforms: Query<&Transform>,
+	mut commands: Commands,
+	mut query: Query<
+		(
+			Entity,
+			&Transform,
+			&mut Velocity,
+			&VelocityMax,
+			&Prop<SeekTarget, N>,
+		),
+		With<Prop<Running, N>>,
+	>,
+	transforms: Query<&Transform>,
 ) {
-    for (entity, transform, mut velocity, seek) in query.iter_mut() {
-        let target = match **seek {
-            SeekTarget::Position(pos) => Some(pos),
-            SeekTarget::Entity(target_entity) => {
-                if let Ok(target_transform) = transforms.get(target_entity) {
-                    Some(target_transform.translation)
-                } else {
-                    None
-                }
-            }
-        };
+	for (entity, transform, mut velocity, velocity_max, seek) in
+		query.iter_mut()
+	{
+		let target = match **seek {
+			SeekTarget::Position(pos) => Some(pos),
+			SeekTarget::Entity(target_entity) => {
+				if let Ok(target_transform) = transforms.get(target_entity) {
+					Some(target_transform.translation)
+				} else {
+					None
+				}
+			}
+		};
 
-        match target {
-            Some(target) => {
-                let delta = (target - transform.translation).normalize_or_zero() * velocity.max;
-                **velocity = delta;
-            }
-            None => {
-                commands
-                    .entity(entity)
-                    .insert(Prop::<_, N>::new(ActionResult::Failure));
-            }
-        }
+		match target {
+			Some(target) => {
+				let delta = target - transform.translation;
+				**velocity = if delta.length_squared() < ARRIVE_RADIUS_SQ {
+					commands
+						.entity(entity)
+						.insert(Prop::<_, N>::new(ActionResult::Success));
+					Vec3::ZERO
+				} else {
+					delta.normalize_or_zero() * **velocity_max
+				}
+			}
+			None => {
+				commands
+					.entity(entity)
+					.insert(Prop::<_, N>::new(ActionResult::Failure));
+			}
+		}
 
-        // if let SeekTarget::Entity(target_entity) = seek_target {
-        //     if let Ok(target) = query.get(*target_entity) {
-        //         transform.translation = target.translation;
-        //     }
-        // }
-    }
+		// if let SeekTarget::Entity(target_entity) = seek_target {
+		//     if let Ok(target) = query.get(*target_entity) {
+		//         transform.translation = target.translation;
+		//     }
+		// }
+	}
 }
 
 // pub fn seek_system(

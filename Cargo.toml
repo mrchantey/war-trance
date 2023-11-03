@@ -6,9 +6,11 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.75"
 bevy = "0.11.3"
+bevy_health_bar3d = "1.4.4"
 extend = "1.2.0"
 forky_play = { path = "../forky/crates/forky/forky_play" }
 gamai = { path = "../forky/crates/gamai" }
+rand = "0.8.5"
 
 [dev-dependencies]
 sweet = { path = "../forky/crates/sweet" }

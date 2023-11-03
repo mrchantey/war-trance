@@ -6,6 +6,7 @@ pub struct ProjectileBundle {
     pub pbr: PbrBundle,
     pub velocity: Velocity,
     pub team: TeamId,
+    pub timed_destroy: TimedDestroy,
 }
 
 impl ProjectileBundle {
@@ -19,6 +20,7 @@ impl ProjectileBundle {
         Self {
             team,
             velocity,
+            timed_destroy: TimedDestroy(Timer::from_seconds(3., TimerMode::Once)),
             pbr: PbrBundle {
                 mesh: meshes.add(
                     shape::UVSphere {
