@@ -1,5 +1,5 @@
-pub mod team;
-pub use self::team::*;
+pub mod team_id;
+pub use self::team_id::*;
 pub mod team_assets;
 pub use self::team_assets::*;
 pub mod team_count;

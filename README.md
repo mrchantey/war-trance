@@ -8,11 +8,16 @@ The player is given a limited (random?) amount of control over the situation.
 
 
 
-## Future Ideas
-- Co-op mode
 
 
 ## Changelog
 
 ### todo
-- 
+
+
+### Future Ideas
+- Multiplayer Co-op mode
+- Alliances
+	- Ally
+	- Neutral
+	- Enemy

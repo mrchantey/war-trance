@@ -42,6 +42,7 @@ impl Plugin for WarTrancePlugin {
 			.configure_set(Update, LateUpdateSet.after(UpdateSet))
 			.__()
 			.add_systems(PreStartup, create_default_team_assets)
+			.add_systems(Startup, setup_ui)
 			.add_systems(Startup, spawn_camera)
 			.add_systems(Startup, spawn_two_barracks)
 			.add_systems(Update, spawn_agents.in_set(EarlyUpdateSet))

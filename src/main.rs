@@ -1,10 +1,10 @@
 #![feature(let_chains)]
 #[allow(dead_code)]
-// use bevy::prelude::*;
 #[path = "./lib.rs"]
 mod lib;
 use lib::*;
 // mod ai;
+// use bevy::prelude::*;
 // use ai::*;
 
 fn main() {
