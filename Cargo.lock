@@ -5591,6 +5591,8 @@ dependencies = [
  "anyhow",
  "bevy",
  "bevy_health_bar3d",
+ "bevy_mod_debugdump",
+ "bevy_rapier3d",
  "extend",
  "forky_play",
  "gamai",

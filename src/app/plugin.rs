@@ -1,6 +1,7 @@
 use crate::*;
 use bevy::prelude::*;
 use bevy_health_bar3d::prelude::*;
+use bevy_rapier3d::prelude::*;
 use forky_play::*;
 use gamai::*;
 // use crate::*;
@@ -23,6 +24,10 @@ impl Plugin for WarTrancePlugin {
 				plugins::ForkyDebugPlugin::default().without_debug_cameras(),
 			)
 			.__()
+			.add_plugins(RapierPhysicsPlugin::<NoUserData>::default())
+			// .add_plugins(RapierDebugRenderPlugin::default())
+			// .add_systems(Update, display_events.in_set(UpdateSet))
+			.__()
 			.add_plugins(HealthBarPlugin::<Health>::default())
 			.insert_resource(
 				ColorScheme::<Health>::new()
@@ -36,6 +41,7 @@ impl Plugin for WarTrancePlugin {
 			.configure_set(Update, UpdateSet.after(EarlyUpdateSet))
 			.configure_set(Update, LateUpdateSet.after(UpdateSet))
 			.__()
+			.add_systems(PreStartup, create_default_team_assets)
 			.add_systems(Startup, spawn_camera)
 			.add_systems(Startup, spawn_two_barracks)
 			.add_systems(Update, spawn_agents.in_set(EarlyUpdateSet))
@@ -43,8 +49,13 @@ impl Plugin for WarTrancePlugin {
 			.insert_resource(TeamCount::default())
 			.add_systems(Update, update_team_count.in_set(EarlyUpdateSet))
 			.__()
+			.add_systems(Update, damage_on_collide.in_set(LateUpdateSet))
 			.add_systems(Update, timed_destroy.in_set(LateUpdateSet))
 			.add_systems(Update, velocity_system.in_set(LateUpdateSet))
+			.add_systems(
+				Last,
+				(apply_deferred, despawn_marked, apply_deferred).chain(),
+			)
 			.__();
 	}
 }

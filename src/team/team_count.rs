@@ -25,6 +25,11 @@ impl TeamCount {
 	}
 
 	pub fn total(&self) -> usize { self.total }
+	pub fn is_victory(&self, team: TeamId) -> bool {
+		//TODO alliances
+		self.get(team) == self.total
+	}
+
 	pub fn fraction(&self, team: TeamId) -> f32 {
 		if self.total == 0 {
 			return 0.;

@@ -4,6 +4,8 @@ use crate::*;
 use bevy::prelude::*;
 use gamai::*;
 
+
+
 /// Executes a ranged attack if the windup has elapsed.
 /// # Components
 /// - [`Transform`]
@@ -13,8 +15,7 @@ use gamai::*;
 /// - [`SeekTarget`]
 #[action(props=(ActionTimer::default(),SeekTarget::default()))]
 pub fn ranged_attack<N: AiNode>(
-	mut meshes: ResMut<Assets<Mesh>>,
-	mut materials: ResMut<Assets<StandardMaterial>>,
+	team_assets: Res<TeamAssets>,
 	mut commands: Commands,
 	transforms: Query<&Transform>,
 	mut query: Query<
@@ -31,20 +32,26 @@ pub fn ranged_attack<N: AiNode>(
 ) {
 	for (entity, transform, weapon, team, timer, target) in query.iter_mut() {
 		if timer.last_start.elapsed() > weapon.windup {
-			commands
-				.entity(entity)
-				.insert(Prop::<_, N>::new(ActionResult::Success));
+			if let Some(mut commands) = commands.get_entity(entity) {
+				commands.insert(Prop::<_, N>::new(ActionResult::Success));
+			}
+			// commands
+			// 	.entity(entity)
+			// 	.insert(Prop::<_, N>::new(ActionResult::Success));
 			// println!("{}", timer.last_start.elapsed().as_secs_f32());
 			// time.
-			let target_pos = target.to_position(&transforms).unwrap();
-			let vel = (target_pos - transform.translation).normalize() * 0.5;
-			commands.spawn(ProjectileBundle::new(
-				&mut meshes,
-				&mut materials,
-				transform.translation,
-				Velocity(vel),
-				team.clone(),
-			));
+			if let Ok(target_pos) = target.to_position(&transforms) {
+				let dir = (target_pos - transform.translation).normalize();
+				ProjectileBundle::spawn(
+					&mut commands,
+					&team_assets,
+					transform.translation,
+					dir,
+					team.clone(),
+				);
+			} else {
+				//todo what happens here?
+			}
 			// println!(
 			//     "time: {}, entity {:?} attacking {:?}",
 			//     time.0, entity, target_pos

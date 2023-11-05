@@ -14,6 +14,7 @@ test-w *args:
 
 run:
 	just watch cargo run
+# 
 
 watch *command:
 	forky watch \
@@ -22,3 +23,15 @@ watch *command:
 	-i '**/mod.rs' \
 	-i '**/*_g.rs' \
 	-- {{command}}
+
+
+vis:
+	cargo run --example graph
+	just dot-to-svg target/graph/render_graph.dot
+
+vis-serve:
+	cd ./target/graph && forky serve
+
+# requires https://graphviz.org/download/
+dot-to-svg target:
+	dot -Tsvg -O {{target}}

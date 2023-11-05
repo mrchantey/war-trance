@@ -1,28 +1,20 @@
 use crate::*;
 use bevy::prelude::*;
-use gamai::*;
 
 pub fn spawn_two_barracks(
 	mut commands: Commands,
-	mut meshes: ResMut<Assets<Mesh>>,
-	mut materials: ResMut<Assets<StandardMaterial>>,
+	team_assets: Res<TeamAssets>,
 ) {
-	commands.spawn((
-		BarracksBundle::new(
-			&mut meshes,
-			&mut materials,
-			Vec3::new(-3., 0., 0.),
-			TeamId::team0(),
-		),
-		TreeBundle::new(AgentTree),
-	));
-	commands.spawn((
-		BarracksBundle::new(
-			&mut meshes,
-			&mut materials,
-			Vec3::new(3., 0., 0.),
-			TeamId::team1(),
-		),
-		TreeBundle::new(AgentTree),
-	));
+	BarracksBundle::spawn(
+		&mut commands,
+		&team_assets,
+		Vec3::new(-3., 0., 0.),
+		default_teams::BLUE,
+	);
+	BarracksBundle::spawn(
+		&mut commands,
+		&team_assets,
+		Vec3::new(3., 0., 0.),
+		default_teams::RED,
+	);
 }

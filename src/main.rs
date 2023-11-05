@@ -1,3 +1,4 @@
+#![feature(let_chains)]
 #[allow(dead_code)]
 // use bevy::prelude::*;
 #[path = "./lib.rs"]
@@ -7,8 +8,8 @@ use lib::*;
 // use ai::*;
 
 fn main() {
-    let mut app = bevy::prelude::App::new();
-    app.add_plugins(WarTrancePlugin);
+	let mut app = bevy::prelude::App::new();
+	app.add_plugins(WarTrancePlugin);
 
-    app.run();
+	app.run();
 }

@@ -9,26 +9,6 @@ pub struct Health {
 	pub max: f32,
 }
 
-#[derive(Bundle)]
-pub struct HealthBundle {
-	pub health: Health,
-	pub health_bar: BarBundle<Health>,
-}
-
-impl HealthBundle {
-	pub fn new(health: Health, offset: f32) -> Self {
-		Self {
-			health,
-			health_bar: BarBundle::<Health> {
-				width: BarWidth::new(0.5),
-				offset: BarOffset::new(offset),
-				height: BarHeight::Static(0.1),
-				..default()
-			},
-		}
-	}
-}
-
 impl Percentage for Health {
 	fn value(&self) -> f32 { self.value / self.max }
 }
@@ -48,4 +28,26 @@ impl Default for Health {
 
 impl Health {
 	pub fn new(value: f32, max: f32) -> Self { Self { value, max } }
+	pub fn full(value: f32) -> Self { Self { value, max: value } }
+}
+
+
+#[derive(Bundle)]
+pub struct HealthBundle {
+	pub health: Health,
+	pub health_bar: BarBundle<Health>,
+}
+
+impl HealthBundle {
+	pub fn new(health: Health, offset: f32) -> Self {
+		Self {
+			health,
+			health_bar: BarBundle::<Health> {
+				width: BarWidth::new(0.5),
+				offset: BarOffset::new(offset),
+				height: BarHeight::Static(0.05),
+				..default()
+			},
+		}
+	}
 }
