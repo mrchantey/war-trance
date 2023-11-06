@@ -6,7 +6,7 @@ use war_trance::*;
 #[sweet_test]
 pub fn works() -> Result<()> {
 	let mut app = App::new();
-	app.add_plugins(AppStatePlugin).add_plugins(MenuPlugin);
+	app.add_plugins((AppStatePlugin, MenuPlugin));
 	app.update();
 
 	expect(&mut app)
