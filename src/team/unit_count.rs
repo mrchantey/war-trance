@@ -4,12 +4,12 @@ use bevy::prelude::*;
 use bevy::utils::HashMap;
 
 #[derive(Debug, Default, Resource)]
-pub struct TeamCount {
+pub struct UnitCount {
 	teams: HashMap<TeamId, usize>,
 	total: usize,
 }
 
-impl TeamCount {
+impl UnitCount {
 	pub fn new() -> Self {
 		Self {
 			teams: HashMap::new(),
@@ -61,7 +61,7 @@ impl TeamCount {
 
 pub fn update_team_count(
 	query: Query<&TeamId, With<Health>>,
-	mut team_count: ResMut<TeamCount>,
+	mut team_count: ResMut<UnitCount>,
 ) {
 	team_count.recalculate(query);
 }

@@ -12,7 +12,7 @@ const MAX_SPAWN_COOLDOWN: f32 = 0.4;
 const SPAWN_RADIUS: f32 = 3.0;
 
 pub fn spawn_agents(
-	team_count: Res<TeamCount>,
+	team_count: Res<UnitCount>,
 	time: Res<Time>,
 	mut commands: Commands,
 	team_assets: Res<TeamAssets>,

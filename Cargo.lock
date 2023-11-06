@@ -5038,6 +5038,10 @@ version = "0.1.36"
 dependencies = [
  "anyhow",
  "backtrace",
+ "bevy_app",
+ "bevy_ecs",
+ "bevy_time",
+ "bevy_utils",
  "clap",
  "colorize",
  "crossterm",

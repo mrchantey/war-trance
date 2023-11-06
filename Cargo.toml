@@ -15,7 +15,7 @@ rand = "0.8.5"
 
 [dev-dependencies]
 bevy_mod_debugdump = "0.8.0"
-sweet = { path = "../forky/crates/sweet" }
+sweet = { path = "../forky/crates/sweet", features = ["bevy_core"] }
 
 [[example]]
 name = "sweet"

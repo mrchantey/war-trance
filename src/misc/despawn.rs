@@ -1,12 +1,12 @@
 use bevy::prelude::*;
 
 
-#[derive(Component)]
+#[derive(Debug, Component)]
 pub struct DespawnMarker;
 
-pub fn despawn_marked(world: &mut World) {
+pub fn despawn_marked<T: Component>(world: &mut World) {
 	world
-		.query_filtered::<Entity, With<DespawnMarker>>()
+		.query_filtered::<Entity, With<T>>()
 		.iter(world)
 		//copy entities to new vec to allow mutable world access
 		.collect::<Vec<_>>()
