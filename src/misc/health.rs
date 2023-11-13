@@ -1,9 +1,11 @@
 use bevy::prelude::*;
+use bevy::reflect::TypeUuid;
 use bevy_health_bar3d::prelude::*;
 use std::ops::Deref;
 use std::ops::DerefMut;
 
-#[derive(Debug, Copy, Clone, Component)]
+#[derive(Debug, Copy, Clone, Component, TypeUuid, TypePath)]
+#[uuid = "acecba41-d0df-43d9-9a0d-925eb6b50063"]
 pub struct Health {
 	pub value: f32,
 	pub max: f32,

@@ -50,20 +50,20 @@ pub struct RoundPlugin;
 impl Plugin for RoundPlugin {
 	fn build(&self, app: &mut App) {
 		app.__()
-			.configure_set(
+			.configure_sets(
 				Update,
 				RoundPlaySet.run_if(resource_equals(RoundLifecycle::Play)),
 			)
-			.configure_set(Update, EarlyUpdateSet.in_set(RoundPlaySet))
-			.configure_set(
+			.configure_sets(Update, EarlyUpdateSet.in_set(RoundPlaySet))
+			.configure_sets(
 				Update,
 				UpdateSet.in_set(RoundPlaySet).after(EarlyUpdateSet),
 			)
-			.configure_set(
+			.configure_sets(
 				Update,
 				LateUpdateSet.in_set(RoundPlaySet).after(UpdateSet),
 			)
-			.configure_set(
+			.configure_sets(
 				Update,
 				DespawnSet.in_set(RoundPlaySet).after(LateUpdateSet),
 			)

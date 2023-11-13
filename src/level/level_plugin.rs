@@ -9,6 +9,10 @@ impl Plugin for LevelPlugin {
 	fn build(&self, app: &mut App) {
 		app.__()
 			.register_state::<LevelState>()
+			.register_variant(LevelState::Void)
+			.register_variant(LevelState::PreRound)
+			.register_variant(LevelState::InRound)
+			.register_variant(LevelState::PostRound)
 			.add_systems(
 				OnEnter(AppState::InLevel),
 				|mut next: ResMut<NextState<LevelState>>| {
