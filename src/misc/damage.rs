@@ -28,7 +28,7 @@ pub fn damage_on_collide(
 	};
 
 
-	for collision_event in collision_events.iter() {
+	for collision_event in collision_events.read() {
 		match collision_event {
 			CollisionEvent::Started(a, b, _) => {
 				for_each_collision(*a,*b);

@@ -5,16 +5,16 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.75"
-bevy = "0.11.3"
-bevy_health_bar3d = "1.4.4"
-bevy_rapier3d = { version = "0.22.0", features = ["debug-render-3d"] }
+bevy = "0.12.0"
+bevy_health_bar3d = "2.0.1"
+bevy_rapier3d = { version = "0.23.0", features = ["debug-render-3d"] }
 extend = "1.2.0"
 forky_play = { path = "../forky/crates/forky/forky_play" }
 gamai = { path = "../forky/crates/gamai" }
 rand = "0.8.5"
 
 [dev-dependencies]
-bevy_mod_debugdump = "0.8.0"
+bevy_mod_debugdump = "0.9.0"
 sweet = { path = "../forky/crates/sweet", features = ["bevy_core"] }
 
 [[example]]

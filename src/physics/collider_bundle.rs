@@ -25,7 +25,7 @@ impl ColliderBundle {
 
 
 pub fn display_events(mut collision_events: EventReader<CollisionEvent>) {
-	for collision_event in collision_events.iter() {
+	for collision_event in collision_events.read() {
 		match collision_event {
 			CollisionEvent::Started(_, _, _) => {
 				println!("Received collision event: {:?}", collision_event);
