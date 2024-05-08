@@ -4,7 +4,7 @@ use beet::prelude::*;
 use bevy::pbr::CascadeShadowConfigBuilder;
 use bevy::prelude::*;
 use war_trance::{init_animators, PlayAnimation};
-use std::f32::consts::PI;
+use std::{f32::consts::PI, time::Duration};
 pub fn main() {
 	App::new()
 		.add_plugins(DefaultPlugins)
@@ -30,6 +30,7 @@ fn setup(
 	let mut graph = AnimationGraph::new();
 
 	let anim1 = graph.add_clip(asset_server.load("models/KayKit_Adventurers_1.0_FREE/Characters/gltf/Rogue.glb#Animation0"), 1.0, graph.root);
+	let anim2 = graph.add_clip(asset_server.load("models/KayKit_Adventurers_1.0_FREE/Characters/gltf/Rogue.glb#Animation1"), 1.0, graph.root);
 
 	// Insert a resource with the current scene information
 	let graph = graphs.add(graph);
@@ -69,7 +70,7 @@ fn setup(
 		..default()
 	});
 
-	let entity = commands.spawn((
+	commands.spawn((
 			SceneBundle {
 			scene: asset_server.load("models/KayKit_Adventurers_1.0_FREE/Characters/gltf/Rogue.glb#Scene0"),
 			transform: Transform::from_scale(Vec3::splat(10.)),
@@ -78,11 +79,24 @@ fn setup(
 		graph.clone(),
 		AnimationTransitions::new(),
 	)).with_children(|parent|{
+		let agent = parent.parent_entity();
 		parent.spawn((
 			Running,
-			TargetAgent(parent.parent_entity()), 
-			PlayAnimation::new(anim1,graph).repeat(RepeatAnimation::Forever)
-		));
-	}).id();
-	log::info!("setup 1 - {}", entity);
+			Repeat,
+			SequenceSelector,
+		)).with_children(|parent|{
+			parent.spawn((
+				LogOnRun::new("running 1"),
+				TargetAgent(agent), 
+				PlayAnimation::new(anim1,graph.clone()).repeat(RepeatAnimation::Forever),
+				RunTimer::default(),
+				InsertInDuration::new(RunResult::Success, Duration::from_secs(2))));
+				parent.spawn((
+				LogOnRun::new("running 2"),
+				TargetAgent(agent), 
+				RunTimer::default(),
+				PlayAnimation::new(anim2,graph.clone()).repeat(RepeatAnimation::Forever),
+				InsertInDuration::new(RunResult::Success, Duration::from_secs(1))));
+		});
+	});
 }

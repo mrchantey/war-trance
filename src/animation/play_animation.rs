@@ -65,7 +65,6 @@ fn play_animation_on_run(
 		if !player.is_playing_animation(play_animation.animation)
 			|| play_animation.trigger_if_playing
 		{
-			log::info!("playonrun 2");
 			transitions
 				.play(
 					&mut player,
@@ -87,14 +86,12 @@ fn play_animation_on_load(
 	query: Query<(&TargetAgent, &PlayAnimation), With<Running>>,
 ) {
 	for (entity, mut player, mut transitions) in loaded_animators.iter_mut() {
-		log::info!("playonload 0");
 		let Some(play_animation) =
 			ParentExt::find(entity, &parents, |parent| {
 				query.iter().find_map(|(target, play_animation)| {
 					if **target == parent {
 						Some(play_animation)
 					} else {
-						log::info!("nope");
 						None
 					}
 				})
@@ -102,12 +99,9 @@ fn play_animation_on_load(
 		else {
 			continue;
 		};
-		log::info!("playonload 1");
 		if !player.is_playing_animation(play_animation.animation)
 			|| play_animation.trigger_if_playing
 		{
-			log::info!("playonload 2");
-
 			transitions
 				.play(
 					&mut player,
