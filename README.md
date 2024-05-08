@@ -1,28 +1,20 @@
-# war-trance
-Open-source strategy game
+# WarTrance
 
-A game where the objective is to fight entropy, that is make the battle simulator go on for as long as possible.
-
-The player is given a limited (random?) amount of control over the situation.
+WarTrance is an open source RTS game built with Bevy.
 
 
-## App States & Lifecycle
+## Assets
 
-- [`GameState::MainMenu`]
-- [`GameState::InGame`]
-	- [`Round::Prepare`]
-	- [`Round::Running`]
-	- [`Round::Paused`]
-	- [`Round::Postgame`]
+This game uses free assets which must be downloaded seperately:
 
-## Changelog
-
-### todo
+- [Itch.io - KayKit](https://kaylousberg.itch.io/)
+	- [Adveturers](https://kaylousberg.itch.io/kaykit-adventurers) -> `assets/models/`
+	- [Medieval Hexagong](https://kaylousberg.itch.io/kaykit-medieval-hexagon) -> `assets/models/`
 
 
-### Future Ideas
-- Multiplayer Co-op mode
-- Alliances
-	- Ally
-	- Neutral
-	- Enemy
+```sh
+unzip ~/Downloads/KayKit_Adventurers_1.0_FREE.zip -d ~/me/war-trance/assets/models
+unzip ~/Downloads/KayKit_Medieval_Hexagon_Pack_1.0_FREE.zip -d ~/me/war-trance/assets/models
+```
+
+## Roadmap

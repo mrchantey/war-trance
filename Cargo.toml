@@ -4,19 +4,13 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-anyhow = "1.0.75"
-bevy = "0.12.0"
-bevy_health_bar3d = "2.0.1"
-bevy_rapier3d = { version = "0.23.0", features = ["debug-render-3d"] }
-extend = "1.2.0"
-forky_play = { path = "../forky/crates/forky/forky_play" }
-gamai = { path = "../forky/crates/gamai" }
-rand = "0.8.5"
+bevy = { git = "https://github.com/bevyengine/bevy.git", rev = "f516de456be2b65572de1af6956d52157663b9cc" }
+beet = { path = "../beet/crates/beet" }
+# forky_core = { path = "../forky/crates/forky/forky_core" }
+forky_bevy = { path = "../forky/crates/forky/forky_bevy" }
+# forky_web = { path = "../forky/crates/forky/forky_web" }
+sweet = { path = "../forky/crates/sweet", features = ["bevy"] }
+
+log = "0.4"
 
 [dev-dependencies]
-bevy_mod_debugdump = "0.9.0"
-sweet = { path = "../forky/crates/sweet", features = ["bevy_core"] }
-
-[[example]]
-name = "sweet"
-path = "test/sweet.rs"
